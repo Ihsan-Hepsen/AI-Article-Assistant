@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 async function summarize(text) {
     const API_URL = "https://api.openai.com/v1/chat/completions"
-    const API_KEY = "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"
+    const API_KEY = ""
     if (text) {
         try {
             let response = await fetch(API_URL, {
