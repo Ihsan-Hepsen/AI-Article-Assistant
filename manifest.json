@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+    "name": "Text Summarizer",
+    "version": "0.1.2",
+    "description": "Summarize ny selected text with AI",
+    "permissions": [
+        "activeTab",
+        "storage",
+        "https://api.openai.com/"
+    ],
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_title": "Text Summarizer"
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": false
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        "content.js"
+    ]
+}
