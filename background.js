@@ -28,7 +28,7 @@ async function summarize(text) {
             })
             const summary = await response.json()
             console.log(`\n\n${summary.choices[0].message.content}\n\n`)
-        } catch(error) {
+        } catch (error) {
             console.log("Error occurred while sendingg summary request to Open AI API.")
             console.error(`Error occurred: ${error}`)
         }
