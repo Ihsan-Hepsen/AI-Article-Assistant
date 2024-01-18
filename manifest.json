@@ -1,11 +1,12 @@
 {
     "manifest_version": 2,
     "name": "Text Summarizer",
-    "version": "0.1.4.4",
+    "version": "0.1.4.6",
     "description": "Summarize any selected text with AI",
     "permissions": [
         "activeTab",
         "storage",
+        "contextMenus",
         "https://api.openai.com/"
     ],
     "browser_action": {

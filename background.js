@@ -1,16 +1,41 @@
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    console.log('Message received:', message)
-    if (message.action === 'summarizeText') {
-        summarize(message.text)
-        console.log('Selected Text:', message.text)
-    }
+chrome.contextMenus.create({
+    id: "ai-actions",
+    title: "AI Actions",
+    id: "main",
+    contexts: ["selection"]
 })
 
+chrome.contextMenus.create({
+    id: "summary",
+    title: "Summarize",
+    parentId: "main",
+    contexts: ["selection"]
+})
 
-async function summarize(text) {
-    const API_URL = "https://api.openai.com/v1/chat/completions"
-    const API_KEY = ""
+chrome.contextMenus.create({
+    id: "key-points",
+    title: "Key Points",
+    parentId: "main",
+    contexts: ["selection"]
+})
+
+chrome.contextMenus.create({
+    id: "elaborate",
+    title: "Elaborate",
+    parentId: "main",
+    contexts: ["selection"]
+})
+
+chrome.contextMenus.onClicked.addListener(summarize)
+
+
+
+async function summarize(data) {
+    const text = data.selectionText
+    console.log(text)
     if (text) {
+        const API_URL = "https://api.openai.com/v1/chat/completions"
+        const API_KEY = "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"
         try {
             let response = await fetch(API_URL, {
                 method: "POST",
@@ -28,6 +53,7 @@ async function summarize(text) {
             })
             const summary = await response.json()
             console.log(`\n\n${summary.choices[0].message.content}\n\n`)
+            alert(summary.choices[0].message.content)
         } catch (error) {
             console.log("Error occurred while sendingg summary request to Open AI API.")
             console.error(`Error occurred: ${error}`)
