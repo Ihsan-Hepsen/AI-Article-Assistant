@@ -34,7 +34,7 @@ async function summarize(data) {
     console.log(data)
     if (text) {
         const API_URL = "https://api.openai.com/v1/chat/completions"
-        const API_KEY = "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"
+        const API_KEY = ""
         try {
             let response = await fetch(API_URL, {
                 method: "POST",
