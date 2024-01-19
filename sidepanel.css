@@ -1,7 +1,8 @@
 body {
-    width: 200px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 10px;
 }
+
 
 button {
     width: 100%;

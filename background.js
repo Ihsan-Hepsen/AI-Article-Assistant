@@ -29,10 +29,9 @@ chrome.contextMenus.create({
 chrome.contextMenus.onClicked.addListener(summarize)
 
 
-
 async function summarize(data) {
     const text = data.selectionText
-    console.log(text)
+    console.log(data)
     if (text) {
         const API_URL = "https://api.openai.com/v1/chat/completions"
         const API_KEY = "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"
@@ -53,7 +52,11 @@ async function summarize(data) {
             })
             const summary = await response.json()
             console.log(`\n\n${summary.choices[0].message.content}\n\n`)
-            alert(summary.choices[0].message.content)
+            // alert(summary.choices[0].message.content)
+            chrome.runtime.sendMessage({
+                action: 'updateSidePanel',
+                summary: summary.choices[0].message.content
+            })
         } catch (error) {
             console.log("Error occurred while sendingg summary request to Open AI API.")
             console.error(`Error occurred: ${error}`)

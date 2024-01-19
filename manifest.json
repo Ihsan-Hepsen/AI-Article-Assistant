@@ -1,35 +1,24 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Text Summarizer",
-    "version": "0.1.4.6",
+    "version": "0.1.5.5",
     "description": "Summarize any selected text with AI",
     "permissions": [
         "activeTab",
         "storage",
         "contextMenus",
+        "sidePanel"
+    ],
+    "host_permissions": [
         "https://api.openai.com/"
     ],
-    "browser_action": {
-        "default_popup": "popup.html",
-        "default_title": "Text Summarizer"
-    },
     "background": {
-        "scripts": [
-            "background.js"
-        ],
-        "persistent": false
+        "service_worker": "background.js"
     },
-    "content_scripts": [
-        {
-            "matches": [
-                "<all_urls>"
-            ],
-            "js": [
-                "content.js"
-            ]
-        }
-    ],
-    "web_accessible_resources": [
-        "content.js"
-    ]
+    "side_panel": {
+        "default_path": "sidepanel.html"
+    },
+    "action": {
+        "default_title": "Click to open panel"
+    }
 }
