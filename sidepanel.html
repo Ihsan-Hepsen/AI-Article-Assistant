@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Summarizer</title>
     <script src="./sidepanel.js" defer></script>
     <link rel="stylesheet" href="./sidepanel.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
+
 <body>
     <!-- <button id="sum-btn">Summarize</button> -->
-    <h1 id="heading">Summary</h1>
+    <h1 id="heading">Results</h1>
     <article>
+        <div id="res-loading">
+            <span class="placeholder col-6 bg-primary"></span>
+            <span class="placeholder w-75 bg-primary"></span>
+            <span class="placeholder bg-primary" style="width: 25%;"></span>
+        </div>
         <p id="p-content">Right click on any selected text to perform AI actions.</p>
     </article>
 </body>
+
 </html>
