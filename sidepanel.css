@@ -11,7 +11,7 @@ h1, p {
     font-size: 90%;
 }
 
-#res-loading {
+#res-skeleton {
     display: none;
 }
 

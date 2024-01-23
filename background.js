@@ -36,6 +36,7 @@ async function handleAITextOperations(data) {
         const API_URL = "https://api.openai.com/v1/chat/completions"
         const API_KEY = ""
         try {
+            chrome.runtime.sendMessage({action: 'show-skeleton'})
             let response = await fetch(API_URL, {
                 method: "POST",
                 headers: {
@@ -56,15 +57,18 @@ async function handleAITextOperations(data) {
                 action: 'updateSidePanel',
                 summary: summary.choices[0].message.content
             })
+            chrome.runtime.sendMessage({action: 'hide-skeleton'})
         } catch (error) {
-            console.log("Error occurred while sendingg summary request to Open AI API.")
+            console.log("Error occurred while sending summary request to Open AI API.")
             console.error(`Error occurred: ${error}`)
+            chrome.runtime.sendMessage({action: 'hide-skeleton'})
         }
     } else {
         console.error("Cannot perform actions for empty or null text.")
         return
     }
 }
+
 
 function loadCorrespondingContent(menuItemId) {
     switch (menuItemId) {
@@ -77,4 +81,14 @@ function loadCorrespondingContent(menuItemId) {
         default:
             return 'Please give me a good summary for the following text:'
     }
+}
+
+
+function showLoadingSkeleton() {
+    chrome.runtime.sendMessage({action: 'show-skeleton'})
+}
+
+function hideLoadingSkeleton() {
+    const loadingSkeleton = document.getElementById('res-skeleton');
+    loadingSkeleton.style.display = 'none';
 }
