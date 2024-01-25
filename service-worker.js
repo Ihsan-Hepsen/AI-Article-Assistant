@@ -104,6 +104,5 @@ function showLoadingSkeleton() {
 }
 
 function hideLoadingSkeleton() {
-    const loadingSkeleton = document.getElementById('res-skeleton')
-    loadingSkeleton.style.display = 'none'
+    chrome.runtime.sendMessage({ action: 'hide-skeleton' })
 }
