@@ -1,3 +1,17 @@
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.contextMenus.create({
+        id: 'openSidePanel',
+        title: 'Open side panel',
+        contexts: ['action']
+    })
+})
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId === 'openSidePanel') {
+        chrome.sidePanel.open({ windowId: tab.windowId })
+    }
+})
+
 chrome.contextMenus.create({
     id: "ai-actions",
     title: "AI Actions",
@@ -29,14 +43,15 @@ chrome.contextMenus.create({
 chrome.contextMenus.onClicked.addListener(handleAITextOperations)
 
 
-async function handleAITextOperations(data) {
+async function handleAITextOperations(data, tab) {
     const text = data.selectionText
     const content = loadCorrespondingContent(data.menuItemId)
+    chrome.sidePanel.open({ windowId: tab.windowId })
     if (text && content) {
         const API_URL = "https://api.openai.com/v1/chat/completions"
-        const API_KEY = ""
+        const API_KEY = "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"
         try {
-            chrome.runtime.sendMessage({action: 'show-skeleton'})
+            chrome.runtime.sendMessage({ action: 'show-skeleton' })
             let response = await fetch(API_URL, {
                 method: "POST",
                 headers: {
@@ -57,11 +72,11 @@ async function handleAITextOperations(data) {
                 action: 'updateSidePanel',
                 summary: summary.choices[0].message.content
             })
-            chrome.runtime.sendMessage({action: 'hide-skeleton'})
+            chrome.runtime.sendMessage({ action: 'hide-skeleton' })
         } catch (error) {
             console.log("Error occurred while sending summary request to Open AI API.")
             console.error(`Error occurred: ${error}`)
-            chrome.runtime.sendMessage({action: 'hide-skeleton'})
+            chrome.runtime.sendMessage({ action: 'hide-skeleton' })
         }
     } else {
         console.error("Cannot perform actions for empty or null text.")
@@ -85,10 +100,10 @@ function loadCorrespondingContent(menuItemId) {
 
 
 function showLoadingSkeleton() {
-    chrome.runtime.sendMessage({action: 'show-skeleton'})
+    chrome.runtime.sendMessage({ action: 'show-skeleton' })
 }
 
 function hideLoadingSkeleton() {
-    const loadingSkeleton = document.getElementById('res-skeleton');
-    loadingSkeleton.style.display = 'none';
+    const loadingSkeleton = document.getElementById('res-skeleton')
+    loadingSkeleton.style.display = 'none'
 }
