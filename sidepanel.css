@@ -15,6 +15,20 @@ h1, p {
     display: none;
 }
 
+#copy-btn {
+    display: none;
+    width: 26%;
+    text-align: left;
+    text-decoration: none;
+}
+
+#copy-success {
+    display: none;
+    text-align: left;
+    text-decoration: none;
+    color: #008000;
+}
+
 button {
     width: 100%;
     padding: 8px;
