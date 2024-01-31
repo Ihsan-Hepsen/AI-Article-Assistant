@@ -72,7 +72,7 @@ document.getElementById('save-settings-btn').addEventListener('click', () => {
             }
         })
     } else {
-        formMsg.innerText = "API Key field cannot beleft blank"
+        formMsg.innerText = "API Key field cannot be left blank"
         formMsg.style.color = '#fe1637'
         formMsg.style.display = 'block'
         return
@@ -83,7 +83,9 @@ document.getElementById('close-settings-btn').addEventListener('click', () => {
     const form = document.getElementById('settings')
     const main = document.getElementById('main')
     const heading = document.getElementById('heading')
+    const formMsg = document.getElementById('form-msg')
 
+    formMsg.style.display = 'none'
     heading.innerText = 'Results'
     form.style.display = 'none'
     main.style.display = 'block'
