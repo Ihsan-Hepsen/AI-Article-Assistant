@@ -57,7 +57,6 @@ document.getElementById('save-settings-btn').addEventListener('click', () => {
             setTimeout(() => {
                 successMsg.style.display = 'none';
 
-                // Continue with the rest of the script
                 const form = document.getElementById('settings');
                 const main = document.getElementById('main');
                 const heading = document.getElementById('heading');
