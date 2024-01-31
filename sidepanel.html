@@ -19,11 +19,11 @@
             <h1 id="heading">Results</h1>
         </div>
         <div class="col-3">
-            <button class="btn btn-outlined-secondary" type="button">Settings</button>
+            <button id="settings-btn" class="btn btn-link text-light" type="button">Settings</button>
         </div>
     </div>
 
-    <div class="row">
+    <div id="main" class="row">
         <article>
             <div id="res-skeleton">
                 <span class="placeholder w-75 bg-primary"></span>
@@ -37,6 +37,28 @@
             </button>
             <span id="copy-success">Copied!</span>
         </article>
+    </div>
+
+    <div id="settings" class="row">
+        <form>
+            <div class="mb-3">
+                <label for="apiKeyInput" class="form-label">API Key</label>
+                <input type="text" class="form-control" id="apiKeyInput" aria-describedby="help"
+                    placeholder="Enter API Key here...">
+                <div id="help" class="form-text text-white">Your API Key is stored locally on your browser.</div>
+            </div>
+            <div class="d-flex justify-content-start">
+                <button id="save-settings-btn" type="button" class="btn btn-success m-2">Save</button>
+                <button id="close-settings-btn" type="button" class="btn btn-outline-danger m-2">Close</button>
+            </div>
+        </form>
+        <span id="success-msg">Saved!</span>
+    </div>
+
+    <div class="row" hidden>
+        <div class="alert alert-secondary" role="warning">
+            Oops, something went wrong! Please try refresing the page.
+        </div>
     </div>
 
 </body>

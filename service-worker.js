@@ -49,7 +49,7 @@ async function handleAITextOperations(data, tab) {
     chrome.sidePanel.open({ windowId: tab.windowId })
     if (text && content) {
         const API_URL = "https://api.openai.com/v1/chat/completions"
-        const API_KEY = ""
+        const API_KEY = await getAPIKey()
         try {
             chrome.runtime.sendMessage({ action: 'show-skeleton' })
             let response = await fetch(API_URL, {
@@ -105,4 +105,14 @@ function showLoadingSkeleton() {
 
 function hideLoadingSkeleton() {
     chrome.runtime.sendMessage({ action: 'hide-skeleton' })
+}
+
+
+async function getAPIKey() {
+    try {
+        let result = await chrome.storage.local.get(['api-key'])
+        return result['api-key']
+    } catch (error) {
+        console.error('Error retrieving data:', error)
+    }
 }

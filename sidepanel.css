@@ -1,3 +1,8 @@
+html, .container-lg {
+    color: #fefefe;
+    background: #303030;
+}
+
 body {
     padding: 1rem 2rem;
 }
@@ -15,6 +20,10 @@ h1, p {
     display: none;
 }
 
+#settings {
+    display: none;
+}
+
 #copy-btn {
     display: none;
     width: 26%;
@@ -26,7 +35,13 @@ h1, p {
     display: none;
     text-align: left;
     text-decoration: none;
-    color: #008000;
+    color: #03c203;
+}
+
+#success-msg{
+    color: #03c203;
+    display: none;
+    font-size: 130%;
 }
 
 button {
