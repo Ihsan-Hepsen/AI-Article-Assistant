@@ -46,27 +46,37 @@ document.getElementById('settings-btn').addEventListener('click', () => {
 
 document.getElementById('save-settings-btn').addEventListener('click', () => {
     const input = document.getElementById('apiKeyInput')
-    let data = { 'api-key': `${input.value}` }
-    chrome.storage.local.set(data, () => {
-        if (chrome.runtime.lastError) {
-            console.error('Error setting value:', chrome.runtime.lastError)
-        } else {
-            console.log('Data is saved successfully')
-            const successMsg = document.getElementById('success-msg')
-            successMsg.style.display = 'block'
-            setTimeout(() => {
-                successMsg.style.display = 'none';
+    const formMsg = document.getElementById('form-msg')
 
-                const form = document.getElementById('settings');
-                const main = document.getElementById('main');
-                const heading = document.getElementById('heading');
+    if (input.value.length > 1) {
+        let data = { 'api-key': `${input.value}` }
+        chrome.storage.local.set(data, () => {
+            if (chrome.runtime.lastError) {
+                console.error('Error setting value:', chrome.runtime.lastError)
+            } else {
+                console.log('Data is saved successfully')
+                formMsg.innerText = 'Saved!'
+                formMsg.style.color = '#03c203'
+                formMsg.style.display = 'block'
+                setTimeout(() => {
+                    formMsg.style.display = 'none'
 
-                heading.innerText = 'Results';
-                form.style.display = 'none';
-                main.style.display = 'block';
-            }, 1500)
-        }
-    })
+                    const form = document.getElementById('settings')
+                    const main = document.getElementById('main')
+                    const heading = document.getElementById('heading')
+
+                    heading.innerText = 'Results'
+                    form.style.display = 'none'
+                    main.style.display = 'block'
+                }, 1500)
+            }
+        })
+    } else {
+        formMsg.innerText = "API Key field cannot beleft blank"
+        formMsg.style.color = '#fe1637'
+        formMsg.style.display = 'block'
+        return
+    }
 })
 
 document.getElementById('close-settings-btn').addEventListener('click', () => {

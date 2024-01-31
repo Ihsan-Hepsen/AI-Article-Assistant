@@ -38,8 +38,7 @@ h1, p {
     color: #03c203;
 }
 
-#success-msg{
-    color: #03c203;
+#form-msg{
     display: none;
     font-size: 130%;
 }
