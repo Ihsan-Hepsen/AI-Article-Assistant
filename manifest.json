@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "AI Article Assistant",
-    "version": "0.1.9.5",
+    "version": "0.2.1",
     "description": "Summarize, bulletize, and elaborate any selected text with AI",
     "minimum_chrome_version": "116",
     "permissions": [
@@ -18,5 +18,11 @@
     },
     "side_panel": {
         "default_path": "sidepanel.html"
+    },
+    "icons": {
+        "16": "assets/icon.png",
+        "32": "assets/icon.png",
+        "48": "assets/icon.png",
+        "128": "assets/icon.png"
     }
 }
