@@ -74,7 +74,7 @@ async function handleAITextOperations(data, tab) {
             })
             chrome.runtime.sendMessage({ action: 'hide-skeleton' })
         } catch (error) {
-            console.log("Error occurred while sending summary request to Open AI API.")
+            console.log("Error occurred while sending the request to Open AI API.")
             console.error(`Error occurred: ${error}`)
             chrome.runtime.sendMessage({ action: 'hide-skeleton' })
         }
