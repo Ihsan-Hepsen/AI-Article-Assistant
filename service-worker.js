@@ -79,7 +79,7 @@ async function handleAITextOperations(data, tab) {
             chrome.runtime.sendMessage({ action: 'hide-skeleton' })
         }
     } else {
-        console.error("Cannot perform actions for empty or null text.")
+        console.log("Cannot perform actions for empty or null text.")
         return
     }
 }
@@ -110,8 +110,8 @@ function hideLoadingSkeleton() {
 
 async function getAPIKey() {
     try {
-        let result = await chrome.storage.local.get(['api-key'])
-        return result['api-key']
+        const { 'api-key': apiKey } = await chrome.storage.local.get('api-key')
+        return apiKey
     } catch (error) {
         console.error('Error retrieving data:', error)
     }
