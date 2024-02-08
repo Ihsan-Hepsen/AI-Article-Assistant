@@ -1,3 +1,15 @@
+async function hasKeyOnSettings() {
+    const apiKEy = await getAPIKey()
+    const pContent = document.getElementById('p-content')
+    if (!apiKEy) {
+        pContent.innerText = "Please add your API Key to settings from the top right corner before starting"
+    } else {
+        pContent.innerText = "Right click on any selected text to perform AI actions"
+    }
+}
+hasKeyOnSettings()
+
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     const copyBtn = document.getElementById('copy-btn')
     if (request.action === 'updateSidePanel') {
@@ -92,4 +104,11 @@ document.getElementById('close-settings-btn').addEventListener('click', () => {
 })
 
 
-
+async function getAPIKey() {
+    try {
+        const { 'api-key': apiKey } = await chrome.storage.local.get('api-key')
+        return apiKey
+    } catch (error) {
+        console.error('Error retrieving data:', error)
+    }
+}
