@@ -1,46 +1,53 @@
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.contextMenus.create({
-        id: 'openSidePanel',
-        title: 'Open side panel',
-        contexts: ['action']
+    // First, remove any existing context menu items to avoid duplicates
+    chrome.contextMenus.removeAll(() => {
+        // Then, create the necessary context menu items
+        chrome.contextMenus.create({
+            id: 'openSidePanel',
+            title: 'Open side panel',
+            contexts: ['action']
+        })
+
+        // Create a parent item for AI actions
+        chrome.contextMenus.create({
+            id: "main",
+            title: "AI Actions",
+            contexts: ["selection"]
+        })
+
+        // Create child items under the AI actions parent item
+        chrome.contextMenus.create({
+            id: "summary",
+            title: "Summarize",
+            parentId: "main",
+            contexts: ["selection"]
+        })
+
+        chrome.contextMenus.create({
+            id: "key-points",
+            title: "Key Points",
+            parentId: "main",
+            contexts: ["selection"]
+        })
+
+        chrome.contextMenus.create({
+            id: "elaborate",
+            title: "Elaborate",
+            parentId: "main",
+            contexts: ["selection"]
+        })
     })
 })
 
+// chrome.contextMenus.onClicked.addListener(handleAITextOperations)
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === 'openSidePanel') {
         chrome.sidePanel.open({ windowId: tab.windowId })
+    } else {
+        // Assuming handleAITextOperations is defined elsewhere in the service worker
+        handleAITextOperations(info, tab)
     }
 })
-
-chrome.contextMenus.create({
-    id: "ai-actions",
-    title: "AI Actions",
-    id: "main",
-    contexts: ["selection"]
-})
-
-chrome.contextMenus.create({
-    id: "summary",
-    title: "Summarize",
-    parentId: "main",
-    contexts: ["selection"]
-})
-
-chrome.contextMenus.create({
-    id: "key-points",
-    title: "Key Points",
-    parentId: "main",
-    contexts: ["selection"]
-})
-
-chrome.contextMenus.create({
-    id: "elaborate",
-    title: "Elaborate",
-    parentId: "main",
-    contexts: ["selection"]
-})
-
-chrome.contextMenus.onClicked.addListener(handleAITextOperations)
 
 
 async function handleAITextOperations(data, tab) {

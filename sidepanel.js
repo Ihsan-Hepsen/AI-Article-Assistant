@@ -59,6 +59,7 @@ document.getElementById('settings-btn').addEventListener('click', () => {
 document.getElementById('save-settings-btn').addEventListener('click', () => {
     const input = document.getElementById('apiKeyInput')
     const formMsg = document.getElementById('form-msg')
+    const pContent = document.getElementById("p-content")
 
     if (input.value.length > 1) {
         let data = { 'api-key': `${input.value}` }
@@ -83,6 +84,7 @@ document.getElementById('save-settings-btn').addEventListener('click', () => {
                 }, 1500)
             }
         })
+        pContent.innerText = "Right click on any selected text to perform AI actions"
     } else {
         formMsg.innerText = "API Key field cannot be left blank"
         formMsg.style.color = '#fe1637'
