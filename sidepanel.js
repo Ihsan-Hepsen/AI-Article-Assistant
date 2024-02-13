@@ -30,6 +30,13 @@ chrome.runtime.onMessage.addListener(function (request) {
 })
 
 
+chrome.runtime.onMessage.addListener(function (request) {
+    if (request.action === "show-result-alert-box") {
+        document.getElementById("result-alert-box").style.display = "block"
+    }
+})
+
+
 document.getElementById('copy-btn').addEventListener('click', async () => {
     const copySuccessMsg = document.getElementById('copy-success')
     try {
@@ -46,6 +53,7 @@ document.getElementById('copy-btn').addEventListener('click', async () => {
 
 
 document.getElementById('settings-btn').addEventListener('click', () => {
+    document.getElementById("alert-box").style.display = 'none'
     const form = document.getElementById('settings')
     const main = document.getElementById('main')
     const heading = document.getElementById('heading')
@@ -76,6 +84,7 @@ document.getElementById('save-settings-btn').addEventListener('click', () => {
                         formMsg.style.color = '#03c203'
                         formMsg.style.display = 'block'
                         setTimeout(() => {
+                            document.getElementById("result-alert-box").style.display = "none"
                             formMsg.style.display = 'none'
                             const form = document.getElementById('settings')
                             const main = document.getElementById('main')
@@ -88,11 +97,11 @@ document.getElementById('save-settings-btn').addEventListener('click', () => {
                 })
                 pContent.innerText = "Right click on any selected text to perform AI actions"
             } else {
-                displayErrorBox()
+                displayAPIKeyErrorBox()
                 console.log("API key is not valid.")
             }
         }).catch(error => {
-            displayErrorBox()
+            displayAPIKeyErrorBox()
             console.log("An error occurred:", error)
         })
     } else {
@@ -104,6 +113,7 @@ document.getElementById('save-settings-btn').addEventListener('click', () => {
 })
 
 document.getElementById('close-settings-btn').addEventListener('click', () => {
+    hasKeyOnSettings()
     const form = document.getElementById('settings')
     const main = document.getElementById('main')
     const heading = document.getElementById('heading')
@@ -141,11 +151,8 @@ function testAPIKey(apiKey) {
 }
 
 
-function displayErrorBox() {
+function displayAPIKeyErrorBox() {
     const alertBox = document.getElementById("alert-box")
-    const pContent = document.getElementById("p-content")
-
-    pContent.innerText = ""
-    alertBox.innerText = "Your API Key is not valid. Please make sure you saved your API Key correctly in the settings"
+    alertBox.innerText = "Your API Key is not valid. Please make sure you saved your API Key correctly"
     alertBox.style.display = "block"
 }

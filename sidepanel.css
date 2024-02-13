@@ -16,6 +16,10 @@ h1, p {
     font-size: 90%;
 }
 
+#result-alert-box {
+    display: none;
+}
+
 #alert-box {
     display: none;
 }

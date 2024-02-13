@@ -76,9 +76,11 @@ async function handleAITextOperations(data, tab) {
             console.log("Error occurred while sending the request to Open AI API.")
             console.error(`Error occurred: ${error}`)
             chrome.runtime.sendMessage({ action: 'hide-skeleton' })
+            chrome.runtime.sendMessage({ action: 'show-result-alert-box' })
         }
     } else {
         console.log("Cannot perform actions for empty or null text.")
+        chrome.runtime.sendMessage({ action: 'show-result-alert-box' })
         return
     }
 }
@@ -119,10 +121,7 @@ async function getAPIKey() {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "test-api-key") {
-        // Now, correctly use the API key sent from the side-panel
-        const apiKey = request.key // Use the apiKey from the request
-
-        // Perform your fetch or other async operations
+        const apiKey = request.key
         fetch(API_URL, {
             method: "POST",
             headers: {
@@ -144,7 +143,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 console.log("API Key is valid")
             }
         }).catch(error => {
-            // Handle fetch error
             sendResponse({ isValid: false })
             console.log("Failed to reach Open AI API")
         })
