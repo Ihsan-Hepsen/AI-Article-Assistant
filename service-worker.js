@@ -79,7 +79,7 @@ async function handleAITextOperations(data, tab) {
             chrome.runtime.sendMessage({ action: 'show-result-alert-box' })
         }
     } else {
-        console.log("Cannot perform actions for empty or null text.")
+        console.error("Cannot perform actions for empty or null text.")
         chrome.runtime.sendMessage({ action: 'show-result-alert-box' })
         return
     }
@@ -137,14 +137,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             const status = response.status
             if (status === 401 || status === 429 || status === 403) {
                 sendResponse({ isValid: false })
-                console.log("API Key is invalid")
+                console.error("API Key is invalid")
             } else {
                 sendResponse({ isValid: true })
                 console.log("API Key is valid")
             }
         }).catch(error => {
             sendResponse({ isValid: false })
-            console.log("Failed to reach Open AI API")
+            console.error("Failed to reach Open AI API")
         })
 
         return true

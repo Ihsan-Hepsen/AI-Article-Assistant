@@ -98,11 +98,11 @@ document.getElementById('save-settings-btn').addEventListener('click', () => {
                 pContent.innerText = "Right click on any selected text to perform AI actions"
             } else {
                 displayAPIKeyErrorBox()
-                console.log("API key is not valid.")
+                console.error("API key is not valid.")
             }
         }).catch(error => {
             displayAPIKeyErrorBox()
-            console.log("An error occurred:", error)
+            console.error("An error occurred:", error)
         })
     } else {
         formMsg.innerText = "API Key field cannot be left blank"
@@ -143,7 +143,7 @@ function testAPIKey(apiKey) {
                 console.log("API Key is valid")
                 resolve(true) // API key is valid
             } else {
-                console.log("API Key is invalid")
+                console.error("API Key is invalid")
                 resolve(false) // API key is not valid or other error
             }
         })
