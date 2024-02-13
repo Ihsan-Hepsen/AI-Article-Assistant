@@ -62,29 +62,39 @@ document.getElementById('save-settings-btn').addEventListener('click', () => {
     const pContent = document.getElementById("p-content")
 
     if (input.value.length > 1) {
-        let data = { 'api-key': `${input.value}` }
-        chrome.storage.local.set(data, () => {
-            if (chrome.runtime.lastError) {
-                console.error('Error setting value:', chrome.runtime.lastError)
+        testAPIKey(input.value).then(isValid => {
+            if (isValid) {
+                console.log("API key is valid.")
+
+                let data = { 'api-key': `${input.value}` }
+                chrome.storage.local.set(data, () => {
+                    if (chrome.runtime.lastError) {
+                        console.error('Error setting value:', chrome.runtime.lastError)
+                    } else {
+                        console.log('Data is saved successfully')
+                        formMsg.innerText = 'Saved!'
+                        formMsg.style.color = '#03c203'
+                        formMsg.style.display = 'block'
+                        setTimeout(() => {
+                            formMsg.style.display = 'none'
+                            const form = document.getElementById('settings')
+                            const main = document.getElementById('main')
+                            const heading = document.getElementById('heading')
+                            heading.innerText = 'Results'
+                            form.style.display = 'none'
+                            main.style.display = 'block'
+                        }, 1500)
+                    }
+                })
+                pContent.innerText = "Right click on any selected text to perform AI actions"
             } else {
-                console.log('Data is saved successfully')
-                formMsg.innerText = 'Saved!'
-                formMsg.style.color = '#03c203'
-                formMsg.style.display = 'block'
-                setTimeout(() => {
-                    formMsg.style.display = 'none'
-
-                    const form = document.getElementById('settings')
-                    const main = document.getElementById('main')
-                    const heading = document.getElementById('heading')
-
-                    heading.innerText = 'Results'
-                    form.style.display = 'none'
-                    main.style.display = 'block'
-                }, 1500)
+                displayErrorBox()
+                console.log("API key is not valid.")
             }
+        }).catch(error => {
+            displayErrorBox()
+            console.log("An error occurred:", error)
         })
-        pContent.innerText = "Right click on any selected text to perform AI actions"
     } else {
         formMsg.innerText = "API Key field cannot be left blank"
         formMsg.style.color = '#fe1637'
@@ -113,4 +123,29 @@ async function getAPIKey() {
     } catch (error) {
         console.error('Error retrieving data:', error)
     }
+}
+
+
+function testAPIKey(apiKey) {
+    return new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage({ action: 'test-api-key', key: apiKey }, function (response) {
+            if (response && response.isValid) {
+                console.log("API Key is valid")
+                resolve(true) // API key is valid
+            } else {
+                console.log("API Key is invalid")
+                resolve(false) // API key is not valid or other error
+            }
+        })
+    })
+}
+
+
+function displayErrorBox() {
+    const alertBox = document.getElementById("alert-box")
+    const pContent = document.getElementById("p-content")
+
+    pContent.innerText = ""
+    alertBox.innerText = "Your API Key is not valid. Please make sure you saved your API Key correctly in the settings"
+    alertBox.style.display = "block"
 }

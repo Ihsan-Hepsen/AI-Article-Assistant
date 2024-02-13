@@ -1,35 +1,29 @@
+const API_URL = "https://api.openai.com/v1/chat/completions"
+
 chrome.runtime.onInstalled.addListener(() => {
-    // First, remove any existing context menu items to avoid duplicates
     chrome.contextMenus.removeAll(() => {
-        // Then, create the necessary context menu items
         chrome.contextMenus.create({
             id: 'openSidePanel',
             title: 'Open side panel',
             contexts: ['action']
         })
-
-        // Create a parent item for AI actions
         chrome.contextMenus.create({
             id: "main",
             title: "AI Actions",
             contexts: ["selection"]
         })
-
-        // Create child items under the AI actions parent item
         chrome.contextMenus.create({
             id: "summary",
             title: "Summarize",
             parentId: "main",
             contexts: ["selection"]
         })
-
         chrome.contextMenus.create({
             id: "key-points",
             title: "Key Points",
             parentId: "main",
             contexts: ["selection"]
         })
-
         chrome.contextMenus.create({
             id: "elaborate",
             title: "Elaborate",
@@ -44,7 +38,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === 'openSidePanel') {
         chrome.sidePanel.open({ windowId: tab.windowId })
     } else {
-        // Assuming handleAITextOperations is defined elsewhere in the service worker
         handleAITextOperations(info, tab)
     }
 })
@@ -55,7 +48,6 @@ async function handleAITextOperations(data, tab) {
     const content = loadCorrespondingContent(data.menuItemId)
     chrome.sidePanel.open({ windowId: tab.windowId })
     if (text && content) {
-        const API_URL = "https://api.openai.com/v1/chat/completions"
         const API_KEY = await getAPIKey()
         try {
             chrome.runtime.sendMessage({ action: 'show-skeleton' })
@@ -123,3 +115,41 @@ async function getAPIKey() {
         console.error('Error retrieving data:', error)
     }
 }
+
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "test-api-key") {
+        // Now, correctly use the API key sent from the side-panel
+        const apiKey = request.key // Use the apiKey from the request
+
+        // Perform your fetch or other async operations
+        fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: "text-davinci-003",
+                prompt: "This is a test.",
+                max_tokens: 5
+            })
+        }).then(response => {
+            const status = response.status
+            if (status === 401 || status === 429 || status === 403) {
+                sendResponse({ isValid: false })
+                console.log("API Key is invalid")
+            } else {
+                sendResponse({ isValid: true })
+                console.log("API Key is valid")
+            }
+        }).catch(error => {
+            // Handle fetch error
+            sendResponse({ isValid: false })
+            console.log("Failed to reach Open AI API")
+        })
+
+        return true
+    }
+})
+

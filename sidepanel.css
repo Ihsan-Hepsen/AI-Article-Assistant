@@ -16,6 +16,10 @@ h1, p {
     font-size: 90%;
 }
 
+#alert-box {
+    display: none;
+}
+
 #res-skeleton {
     display: none;
 }
