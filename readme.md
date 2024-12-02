@@ -1,6 +1,6 @@
 # AI Article Assistant
 
-AI Article Assistant is a Chrome extension designed to enhance your browsing and research experience. It enables you to summarize, bulletize, and elaborate any selected text using ChatGPT 3.5 Turbo.
+AI Article Assistant is a Chrome extension designed to enhance your browsing and research experience. It enables you to summarize, bulletize, and elaborate any selected text using GPT-4
 
 ## Downloading the Extension
 - Download now on [Chrome Web Store](https://chromewebstore.google.com/detail/ai-article-assistant/bhhfcjpcjfoellpajoicfnflaecnmeba)
